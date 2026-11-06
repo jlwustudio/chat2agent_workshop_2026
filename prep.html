@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>上課前準備 — 自然語言生成實務 11/07</title>
+  <meta name="description" content="上課前 5 分鐘：註冊 Claude 免費帳號、開啟 Artifacts 與 Create and edit files。">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="inner">
+      <a class="brand" href="index.html">
+        <img src="assets/bigdata_logo.png" alt="東吳資科" class="header-logo">
+        <img src="assets/nlp_logo.png" alt="NLP Lab" class="header-logo">
+        自然語言生成實務
+        <small>11/07 下午</small>
+      </a>
+      <nav class="site-nav">
+        <a href="index.html">首頁</a>
+        <a href="prep.html" aria-current="page">上課前準備</a>
+        <a href="handout.html">學員講義</a>
+        <a href="slides/afternoon.html">投影片</a>
+        <a href="data/">範例資料</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="hero">
+      <span class="kicker">上課前 ・ 約 5 分鐘</span>
+      <h1>上課前準備</h1>
+      <p class="lede">只要一個 <strong>Claude 免費帳號</strong>。不用安裝任何軟體，瀏覽器就好。</p>
+    </div>
+  </div>
+
+  <div class="page">
+    <aside class="toc">
+      <div class="toc-title">本頁目錄</div>
+      <ul>
+        <li><a href="#account">1. 註冊 Claude</a></li>
+        <li><a href="#settings">2. 打開檔案功能</a></li>
+        <li><a href="#check">3. 自檢清單</a></li>
+        <li><a href="#colab">程式組加碼</a></li>
+        <li><a href="#faq">常見問題</a></li>
+      </ul>
+    </aside>
+
+    <main>
+
+      <div class="callout tip">
+        <span class="callout-label">💡 用網頁版就好，不用安裝</span>
+        <p><strong>你今天用瀏覽器開 <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>（網頁版）</strong>。不用安裝任何軟體，公司電腦沒有安裝權限也能用。</p>
+        <p>已經裝了 <strong>Claude 桌面版</strong>的人也可以用桌面版。登入同一個帳號，Project、Skill 和對話都會同步，兩邊的操作一樣。桌面版裡的 <strong>Code</strong> 分頁就是 Claude Code，要 Pro 才能用，今天由老師示範。</p>
+      </div>
+
+      <h2 id="account">1. 註冊 Claude 免費帳號</h2>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>打開 claude.ai</h3>
+          <p>前往 <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>，用 Google 帳號或 Email 註冊。手機驗證碼收到後輸入即可。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>確認登入成功</h3>
+          <p>看到對話輸入框就成功了。左下角顯示的方案是 <strong>Free</strong> 沒關係——今天你動手的部分全部用免費版。</p>
+          <div class="expect">👀 輸入「你好，請用一句話介紹你自己」送出，有回覆就 OK。</div>
+        </div>
+      </div>
+
+      <h2 id="settings">2. 打開檔案功能</h2>
+      <p>實作②要讓 Claude 產出 Word 檔、使用 Skill，需要先確認這兩個開關是打開的：</p>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>設定 → 功能（Capabilities）</h3>
+          <p>點左下角你的名字 → <strong>Settings</strong> → <strong>Capabilities</strong>，確認以下兩項是開啟的：</p>
+          <ul>
+            <li><strong>Artifacts</strong>：讓 Claude 在對話旁邊的視窗打開文件（下一項需要它）</li>
+            <li><strong>Create and edit files</strong>：讓 Claude 產出可下載的 Word、Excel、簡報、PDF。<strong>Skill 也需要這項開著</strong></li>
+          </ul>
+          <div class="callout tip">
+            <span class="callout-label">💡 其他開關不用動</span>
+            <p>Skill 的上傳位置在左側選單 <strong>Customize → Skills</strong>（實作②會用到），不在 Settings。</p>
+            <p>「Use the internet while making files」、Claude in Chrome、Connectors 今天都用不到，維持預設就好。介面是中文的話，名稱會是對應的中文。</p>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="check">3. 自檢清單</h2>
+      <span class="check-progress" data-check-progress="n11-prep">0 / 4 項完成</span>
+      <ul class="checklist" data-check-group="n11-prep">
+        <li><label><input type="checkbox" data-ck="n11-login"><span>登得進 claude.ai，能正常對話</span></label></li>
+        <li><label><input type="checkbox" data-ck="n11-files"><span>「Artifacts」已開啟</span></label></li>
+        <li><label><input type="checkbox" data-ck="n11-skills"><span>「Create and edit files」已開啟</span></label></li>
+        <li><label><input type="checkbox" data-ck="n11-data"><span>知道 <a href="data/">範例資料</a> 在哪裡下載</span></label></li>
+      </ul>
+      <p class="muted small">勾選進度會記在這個瀏覽器裡，關掉頁面再回來還在。</p>
+
+      <h2 id="colab">程式組加碼（會寫程式的人才需要）</h2>
+      <p>準備一個 Google 帳號，確認打得開 <a href="https://colab.research.google.com" target="_blank" rel="noopener">Google Colab</a>。不需要申請任何 API 金鑰。</p>
+
+      <h2 id="faq">常見問題</h2>
+      <div class="faq">
+        <details>
+          <summary>要用網頁版還是桌面版？</summary>
+          <div class="faq-body"><p>網頁版就好。桌面版功能一樣、帳號同步，已經裝了的人用桌面版也可以。今天不需要安裝 Claude Code。</p></div>
+        </details>
+        <details>
+          <summary>一定要付費嗎？</summary>
+          <div class="faq-body"><p>不用。你動手的部分全部用免費版。需要 Pro 的功能（深度研究、排程、桌面版的 Claude Code）由老師現場示範，你看得到兩邊差多少。</p></div>
+        </details>
+        <details>
+          <summary>上課中額度用完了怎麼辦？</summary>
+          <div class="faq-body"><p>免費版每 5 小時有用量上限。用完了就和鄰座併桌看同一台，或改看老師的示範。講義每個實作都有標預估用量。</p></div>
+        </details>
+        <details>
+          <summary>可以用公司的資料練習嗎？</summary>
+          <div class="faq-body"><p>今天請用課程提供的虛構資料。回去要用公司資料前，先確認公司的資訊安全規定；企業通常會用有資料保護條款的 Team / Enterprise 方案。</p></div>
+        </details>
+      </div>
+
+      <div class="pager">
+        <a href="index.html">← 首頁</a>
+        <a href="handout.html">學員講義 →</a>
+      </div>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="inner">
+      <span>AI 職場溝通革命：自然語言生成實務 ・ 2026/11/07 ・ <a href="https://bigdata.scu.edu.tw" target="_blank" rel="noopener">資料科學系</a>
+        ＆ <a href="https://nlp.bigdata.scu.edu.tw" target="_blank" rel="noopener">SCU NLP Lab</a></span>
+      <span><a href="https://github.com/jlwustudio/chat2agent_workshop_2026" target="_blank" rel="noopener">GitHub</a></span>
+      <span><a href="index.html">首頁</a> ・ <a href="handout.html">講義</a></span>
+    </div>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+
+</html>

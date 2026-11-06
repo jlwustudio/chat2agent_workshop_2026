@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>學員講義 — 自然語言生成實務 11/07</title>
+  <meta name="description" content="用 Claude 從對話進階到 AI Agent：Project、Skill、深度研究、Subagents、排程。逐步操作與可複製提示詞。">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="inner">
+      <a class="brand" href="index.html">
+        <img src="assets/bigdata_logo.png" alt="東吳資科" class="header-logo">
+        <img src="assets/nlp_logo.png" alt="NLP Lab" class="header-logo">
+        自然語言生成實務
+        <small>11/07 下午</small>
+      </a>
+      <nav class="site-nav">
+        <a href="index.html">首頁</a>
+        <a href="prep.html">上課前準備</a>
+        <a href="handout.html" aria-current="page">學員講義</a>
+        <a href="slides/afternoon.html">投影片</a>
+        <a href="data/">範例資料</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="hero">
+      <span class="kicker">11/07（六）13:30–16:30 ・ 城中校區 5216</span>
+      <h1>從對話到代理：讓 AI 把工作做完</h1>
+      <p class="lede"><strong>不會寫程式也沒關係。</strong>每一步都寫在這頁，跟著做就會。卡住就舉手。</p>
+      <div class="meta">
+        <span>🌐 你：claude.ai 網頁版（免費）</span>
+        <span>🎬 老師：Claude 桌面版（Pro）＋ Code 分頁</span>
+        <span>✋ 卡住就舉手</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="page">
+
+    <aside class="toc">
+      <div class="toc-title">本頁目錄</div>
+      <ul>
+        <li><a href="#goals">今日目標</a></li>
+        <li><a href="#ladder">四階地圖</a></li>
+        <li><a href="#plans">免費 vs Pro</a></li>
+        <li><a href="#concepts">概念速記</a></li>
+        <li><a href="#prompt">提示詞怎麼寫</a></li>
+        <li><a href="#data">範例資料是什麼</a></li>
+        <li><a href="#roundA">回合 A　模型品質</a></li>
+        <li><a href="#lab1">實作①　建 Project</a></li>
+        <li><a href="#lab2">實作②　做 Skill</a></li>
+        <li><a href="#pss">Project／Skill／Subagent</a></li>
+        <li><a href="#safety">什麼不能上傳</a></li>
+        <li><a href="#roundB">回合 B　研究</a></li>
+        <li><a href="#roundC">回合 C　Subagents</a></li>
+        <li><a href="#roundD">回合 D　排程</a></li>
+        <li><a href="#coder">程式組加碼</a></li>
+        <li><a href="#delegate">交辦模板＋驗收清單</a></li>
+        <li><a href="#templates">5 份現成 Skill</a></li>
+        <li><a href="#next">下週的一件事</a></li>
+        <li><a href="#master">東吳資科碩士班</a></li>
+      </ul>
+    </aside>
+
+    <main>
+
+      <h2 id="goals">今日目標</h2>
+      <ol>
+        <li>知道 AI 不只能聊天：它能<strong>照你的規則做事、產出檔案、自己查資料、分工合作</strong></li>
+        <li>帶走一個<strong>自己做的工作助理</strong>（Project）和一份<strong>自己的 Skill</strong></li>
+        <li>親眼看過<strong>免費版和 Pro 做同一件事的差別</strong>，自己判斷值不值得升級</li>
+        <li>學會<strong>交辦和驗收</strong>——AI 會犯錯，把關的是你</li>
+      </ol>
+
+      <h2 id="ladder">四階地圖</h2>
+      <div class="ladder">
+        <div class="rung"><b class="lv">L1</b><div><strong>對話</strong>：你問、它答。<span class="muted small">聊天、網路搜尋</span></div></div>
+        <div class="rung"><b class="lv">L2</b><div><strong>給它資料與規則</strong>：你設定好工作環境，它照你的格式產出。<span class="muted small">Project、Skill、Artifact、Word/Excel 檔</span> <span class="level-pill">你動手・免費</span></div></div>
+        <div class="rung pro"><b class="lv">L3</b><div><strong>交辦任務</strong>：你指派、它自己做完、你驗收。<span class="muted small">深度研究、排程任務</span> <span class="level-pill pro">老師示範・Pro</span></div></div>
+        <div class="rung pro"><b class="lv">L4</b><div><strong>打造 Agent 團隊</strong>：你設計分工、它們並行處理、互相查核。<span class="muted small">Claude Code、Subagents</span> <span class="level-pill pro">老師示範・Pro</span></div></div>
+      </div>
+
+      <h2 id="plans">免費 vs Pro：差在哪</h2>
+      <p class="muted small">資料來源：<a href="https://claude.com/pricing" target="_blank" rel="noopener">claude.com/pricing</a>，2026/11/06 讀取。方案內容常變動，以官方頁為準。</p>
+      <div class="table-scroll">
+        <table>
+          <tr><th style="width:34%">功能</th><th>免費（你今天用）</th><th>Pro（US$20／月）</th></tr>
+          <tr><td>模型</td><td>Sonnet、Haiku</td><td>再加上 <strong>Opus</strong>（最強）</td></tr>
+          <tr><td>Project</td><td>最多 5 個</td><td>不限</td></tr>
+          <tr><td>Skill、Artifact、產出 Word/Excel、網路搜尋、記憶</td><td>✅</td><td>✅</td></tr>
+          <tr><td>深度研究（Research）</td><td>—</td><td>✅</td></tr>
+          <tr><td>交辦與排程任務</td><td>—</td><td>✅</td></tr>
+          <tr><td>Claude Code（讀寫你電腦裡的檔案）</td><td>—</td><td>✅</td></tr>
+          <tr><td>用量</td><td>每 5 小時、每週都有上限</td><td>較高</td></tr>
+        </table>
+      </div>
+      <div class="callout tip">
+        <span class="callout-label">💡 其他家也一樣</span>
+        <p>ChatGPT、Gemini 的免費版也有專案／Gem 這類功能，但<strong>最強的模型、完整的深度研究、排程</strong>同樣放在付費方案。所以今天學的「付費到底換到什麼」，換一家工具也適用。</p>
+      </div>
+
+      <h2 id="concepts">📖 概念速記</h2>
+      <div class="table-scroll">
+        <table>
+          <tr><th style="width:26%">名詞</th><th>白話</th></tr>
+          <tr><td><strong>提示詞 Prompt</strong></td><td>你交給 Claude 的<strong>工作說明</strong>。不是隨口問一句，而是像交代同事做事一樣，講清楚角色、任務、資料、格式、規則（見下一節）</td></tr>
+          <tr><td><strong>LLM</strong></td><td>讀過海量文字、很會「接下去寫」的 AI。它不是查資料庫，是<strong>猜最可能的下一個字</strong>——所以你給的資料和規則越清楚，它猜得越準</td></tr>
+          <tr><td><strong>幻覺</strong></td><td>它很有自信地說錯話。給它原始資料、要它附出處，就能大幅減少</td></tr>
+          <tr><td><strong>Project</strong></td><td>一個固定的工作空間：放好指示和參考檔案，之後在裡面開的對話都會自動帶著</td></tr>
+          <tr><td><strong>Skill</strong></td><td>一份可攜帶的「做法說明書」（SKILL.md）。Claude 判斷需要時才自動拿出來用，在哪個對話都有效</td></tr>
+          <tr><td><strong>Agent</strong></td><td>會自己規劃步驟、使用工具（搜尋、讀檔、寫檔）、一路做到完成的 AI</td></tr>
+          <tr><td><strong>Subagent</strong></td><td>Agent 的分身：各自有任務、各自讀資料，可以同時跑好幾個</td></tr>
+        </table>
+      </div>
+
+      <h2 id="prompt">✍️ 提示詞怎麼寫：六個要素</h2>
+      <p>今天所有的提示詞（講義裡標著「💡 Claude 提示詞」的框）都照同一套結構寫。前三項是<strong>必填</strong>，後三項越重要的工作越該寫。</p>
+      <div class="table-scroll">
+        <table>
+          <tr><th style="width:16%">要素</th><th style="width:10%"></th><th>要回答的問題</th><th style="width:34%">回合 A 的寫法</th></tr>
+          <tr><td><strong>任務</strong></td><td>必填</td><td>要它做什麼？做到什麼程度？</td><td>寫一份給總經理的一頁提案</td></tr>
+          <tr><td><strong>資料</strong></td><td>必填</td><td>要根據什麼？（上傳的檔案、貼上的內容）沒給資料，它只能猜</td><td>根據附件 <code>company_profile.md</code></td></tr>
+          <tr><td><strong>格式</strong></td><td>必填</td><td>交出來長什麼樣？段落、表格、字數、檔案類型</td><td>問題、選項比較表、建議、時程，共四段</td></tr>
+          <tr><td><strong>角色</strong></td><td>建議</td><td>它用誰的身分、寫給誰看？決定語氣和深度</td><td>你是禾川精密的營運經理</td></tr>
+          <tr><td><strong>規則</strong></td><td>建議</td><td>有哪些限制、不能做的事、判斷標準？</td><td>注意資料中所有的限制條件</td></tr>
+          <tr><td><strong>範例</strong></td><td>選填</td><td>給一小段「我要的樣子」，比形容詞有用</td><td>（實作① 的指示裡有）</td></tr>
+        </table>
+      </div>
+
+      <div class="track-pair">
+        <div class="track free">
+          <span class="track-label">❌ 隨口說說</span>
+          <pre data-nocopy><code>幫我寫一個導入排程系統的提案</code></pre>
+          <p class="small">沒有資料、沒有格式、沒有限制 → 它只能寫一篇「聽起來合理」的通用文章，數字是編的。</p>
+        </div>
+        <div class="track pro">
+          <span class="track-label">✅ 交代清楚</span>
+          <pre data-nocopy><code>你是禾川精密的營運經理（角色）。
+請根據附件資料（資料），寫一份給總經理的一頁提案（任務）：
+湖口廠、觀音廠要不要導入 AI 智慧排程系統。
+包含問題、選項比較表、建議、時程（格式）。
+請注意資料中所有的限制條件（規則）。</code></pre>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-label">💡 講義裡的提示詞框怎麼用</span>
+        <ul>
+          <li>按右上角 <strong>📋 複製提示詞</strong>，貼進 Claude 的輸入框送出。先照原樣跑一次，再改成你自己的情境。</li>
+          <li><strong>寫一次，存起來</strong>：同樣的角色、規則、格式每次都要打很煩 → 存進 <strong>Project 指示</strong>（實作①）或做成 <strong>Skill</strong>（實作②）。之後只要一句「幫我寫湖口廠的週報」就夠了，因為其他要素已經存在裡面。</li>
+          <li><strong>交辦給 Agent 時</strong>，在這六項之外再加「完成標準」和「驗收方式」，就是本頁後面的 <a href="#delegate">交辦任務模板</a>。</li>
+        </ul>
+      </div>
+
+      <h2 id="data">🗂 範例資料是什麼</h2>
+      <p>今天所有練習都用同一家<strong>虛構公司「禾川精密」</strong>：做網通與工業設備電源模組的製造商，員工 1,280 人，有湖口、觀音、台南三廠和越南北寧廠，另有品保、業務、人資、資訊、永續辦公室等 8 個部門。資料是為課程編寫的，<strong>不含任何真實個資</strong>，可以放心上傳。</p>
+      <p>到 <a href="data/">範例資料頁</a> 下載。<code>monthly.zip</code> 下載後先<strong>解壓縮</strong>，裡面是 30 個 <code>.md</code> 文字檔。</p>
+      <div class="table-scroll">
+        <table>
+          <tr><th style="width:24%">檔案</th><th>是什麼</th><th style="width:20%">用在哪</th></tr>
+          <tr><td><code>company_profile.md</code></td><td>公司簡介、Q3 營運數字（交期、品質、流動率、碳排）、客訴類型、管理層要決定的事和<strong>限制條件</strong>。相當於「新人到職要先讀的背景資料」</td><td>回合 A、實作①（放進 Project）</td></tr>
+          <tr><td><code>complaint_email.txt</code></td><td>大客戶「捷訊網通」採購經理寄來的客訴信：一批電源模組焊點不良、交期延遲，要求 8D 報告</td><td>回合 A</td></tr>
+          <tr><td><code>monthly/</code>（30 個檔）</td><td>10 月份各廠區與部門的<strong>週會紀錄</strong>和<strong>員工與客戶回饋彙整</strong>。檔名格式是 <code>日期_單位_種類.md</code>，例如 <code>2026-10-01_湖口廠_meeting.md</code>（meeting＝週會紀錄、feedback＝回饋彙整）</td><td>實作①②（各挑 3 份）、回合 C（全部 30 份）</td></tr>
+          <tr><td><code>employee_survey.csv</code></td><td>100 則員工意見調查：廠區、身分、滿意度（1–5 分）、意見內容。可以用 Excel 打開</td><td>程式組加碼</td></tr>
+        </table>
+      </div>
+      <div class="callout scenario">
+        <span class="callout-label">👀 為什麼要用「一家公司」的資料</span>
+        <p>真實工作裡，你手上永遠是一堆格式不一、彼此可能矛盾的文件。這些範例資料刻意做成這樣：有的數字只是口頭估計、有的紀錄互相衝突。<strong>Claude 能不能讀完、分類、抓出矛盾，就是今天要驗收的事。</strong></p>
+      </div>
+
+      <!-- ============ 回合 A ============ -->
+      <h2 id="roundA">回合 A｜模型品質：Sonnet vs Opus</h2>
+      <p class="muted small">13:45–14:10 ・ 預估用量：中</p>
+
+      <div class="callout scenario">
+        <span class="callout-label">情境</span>
+        <p>你是電源模組製造商「禾川精密」的營運經理。Q3 準時交貨率掉到 88.6%、客訴增加 72%，總經理要你下週一交一頁提案：湖口廠、觀音廠要不要導入「AI 智慧排程系統」。同時，大客戶捷訊網通寄來一封很嚴厲的品質客訴信。</p>
+      </div>
+
+      <h3>🔸 Round 1 — 寫提案</h3>
+      <ol>
+        <li>到 <a href="data/">範例資料</a> 下載 <code>company_profile.md</code> 和 <code>complaint_email.txt</code>。</li>
+        <li>在 claude.ai 開新對話，確認模型是 <strong>Sonnet</strong>，把 <code>company_profile.md</code> 拖進輸入框。</li>
+        <li>貼上這段指示送出：</li>
+      </ol>
+      <pre class="prompt"><code>你是禾川精密的營運經理。請根據附件資料，寫一份給總經理的一頁提案：湖口廠、觀音廠要不要導入「AI 智慧排程系統」。
+要包含：
+1. 問題是什麼（附數字）
+2. 2–3 個選項的比較表（成本、時程、風險）
+3. 你的建議和理由
+4. 時程規劃
+請特別注意資料中所有的限制條件。</code></pre>
+
+      <h3>🔸 Round 2 — 回客戶客訴</h3>
+      <p>在同一個對話，把 <code>complaint_email.txt</code> 拖進去，送出：</p>
+      <pre class="prompt"><code>請以禾川精密業務處的身分回覆這封客訴信。語氣專業誠懇，每個問題和要求都要回應，並給具體的處理時間。</code></pre>
+
+      <div class="track-pair">
+        <div class="track free">
+          <span class="track-label">🟢 你（免費・Sonnet）</span>
+          <p>自己看一下結果，先別急著往下：它有沒有注意到「11 月底前不能停線或換系統」和「資訊處 1 人 12 月請假」？</p>
+        </div>
+        <div class="track pro">
+          <span class="track-label">🟠 老師（Pro・Opus）</span>
+          <p>老師用 Opus 跑同一題，兩邊並排投影。</p>
+        </div>
+      </div>
+      <div class="compare-points">
+        <strong>一起比較：</strong>
+        有沒有抓到所有限制條件、時程排得合不合理（最快也要明年 1 月）、預算有沒有算（380 萬放進 600 萬上限）、有沒有順便發現範疇三盤查要提早啟動；客訴的焊點不良和交期兩個問題是不是都有回、有沒有給 8D 報告日期、有沒有亂承諾賠償。
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-label">💡 差別在「推理」</span>
+        <p>Sonnet 已經寫得很通順。差別通常不在文筆，而在<strong>會不會把好幾個條件放在一起想</strong>。工作上越複雜的判斷，差距越明顯。</p>
+      </div>
+
+      <!-- ============ 實作 1 ============ -->
+      <h2 id="lab1">實作①｜建一個 Project：你的營運助理</h2>
+      <p class="muted small">14:10–14:35 ・ 預估用量：中 ・ <span class="level-pill">L2・免費</span></p>
+
+      <div class="callout scenario">
+        <span class="callout-label">情境</span>
+        <p>每週都要寫週報，每次都要重新貼背景、重新講格式，很煩。這次把它們<strong>一次設定好</strong>。</p>
+      </div>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>建立 Project</h3>
+          <p>左側選單點 <strong>Projects</strong> → <strong>+ 建立 Project</strong>，名稱填「禾川精密營運助理」。</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>寫 Project 指示</h3>
+          <p>在 Project 右側找到 <strong>指示（Instructions）</strong>，貼上下面這段。四個部分：<strong>角色、任務、格式、範例</strong>。</p>
+          <pre class="prompt"><code>【角色】你是禾川精密總部的營運分析助理，讀者是總經理、各廠廠長和部門主管。
+
+【任務】我會給你廠區或部門的週會紀錄、員工與客戶回饋或營運數字，請整理成週報。
+
+【格式】
+一、本週重點（3 點，每點一句話）
+二、問題分類（表格：類別｜次數｜廠區／部門｜說明），類別固定用：交期、品質、人力、設備、安全與永續
+三、需要主管決定的事
+四、待確認事項（資料有衝突或不足的地方）
+
+【規則】
+- 繁體中文，句子短
+- 每個數字都要能對回原始資料；資料互相矛盾時列出兩邊，不要自己挑
+- 不寫「持續精進」這種空話
+
+【範例】本週重點的寫法：「湖口廠 PSU-650 本週 8 張訂單延遲，3 份紀錄都指向插單造成排程衝突，建議優先處理。」</code></pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>上傳參考檔案</h3>
+          <p>在 Project 的 <strong>檔案（Files）</strong> 區上傳 <code>company_profile.md</code>。之後在這個 Project 裡的每個對話，Claude 都知道公司背景。</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>試用：一句話產出週報</h3>
+          <p>在 Project 裡開新對話，從 <a href="data/">範例資料</a> 的 <code>monthly/</code> 上傳湖口廠的 3 份紀錄（10/01、10/13、10/25），送出：</p>
+          <pre class="prompt"><code>幫我寫湖口廠 10 月的週報。</code></pre>
+          <div class="expect">👀 <b>你只講了一句話</b>，它卻知道公司背景、照你的格式、用你的分類。這就是 L2。</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h3>驗收、修正一次</h3>
+          <p>看一下它交的週報：數字對得回原始檔嗎？有沒有漏掉哪份紀錄？在同一個對話送出修正：</p>
+          <pre class="prompt"><code>這份週報請修改三個地方：
+1. 每一個問題後面用括號標出處檔名，例如（2026-10-13_湖口廠_meeting.md）
+2. 最後加一段「五、資料來源」，列出你讀過的所有檔案
+3. 改成 Word 檔讓我下載</code></pre>
+          <div class="expect">👀 現在你手上有一套<b>完整的做法</b>：Project 指示裡的角色、格式、規則，加上你剛剛補的三條修正。下一個實作要把它打包帶走。</div>
+        </div>
+      </div>
+
+      <div class="callout rescue">
+        <span class="callout-label">🆘 卡關排除</span>
+        <ul>
+          <li><strong>找不到 Projects</strong>：在左側選單最上方，或點「☰」展開。</li>
+          <li><strong>格式沒照做</strong>：確認指示有存到 Project 裡，而且你是在 Project <em>裡面</em>開的對話。</li>
+          <li><strong>額度用完</strong>：和鄰座一起看一台，或看老師投影。</li>
+        </ul>
+      </div>
+
+      <!-- ============ 實作 2 ============ -->
+      <h2 id="lab2">實作②｜把做法打包成 Skill</h2>
+      <p class="muted small">14:35–14:55 ・ 預估用量：中高 ・ <span class="level-pill">L2・免費</span></p>
+
+      <div class="callout scenario">
+        <span class="callout-label">情境</span>
+        <p>Project 很好用，但只在那個 Project 裡有效。如果同一套做法想<strong>在任何對話都能用</strong>、還想<strong>分享給同事</strong>、甚至<strong>交給 Claude Code 用</strong>——就把它做成 Skill。</p>
+      </div>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>請 Claude 幫你寫 Skill</h3>
+          <div class="callout scenario">
+            <span class="callout-label">📌 「做法」在哪裡？</span>
+            <p>實作① 第 4 步你只打了一句話，但 Claude 能照格式寫，是因為「做法」已經存在兩個地方：</p>
+            <ul>
+              <li><strong>Project 指示</strong>：角色、任務、格式、規則、範例（第 2 步貼的那段）</li>
+              <li><strong>你的修正</strong>：標出處、列資料來源、輸出 Word（第 5 步）</li>
+            </ul>
+            <p>Skill 就是把這兩樣<strong>寫成一份步驟清楚的說明書</strong>，所以提示詞裡要明確叫它把兩邊都整理進去，並寫成「第 1 步、第 2 步……」的做法。</p>
+          </div>
+          <p>在剛才的 Project 對話裡接著送出：</p>
+          <pre class="prompt"><code>請把「這個 Project 的指示」加上「我剛才在這個對話裡要求的修改」，整理成一個 Claude Skill。
+
+名稱：ops-report
+說明（description）：把廠區或部門的週會紀錄、員工與客戶回饋整理成禾川精密格式的週報或月報，輸出 Word 檔。當使用者說「寫週報」「寫月報」時使用。
+
+SKILL.md 內容請分成四段：
+1. 什麼時候用
+2. 產出步驟：寫成編號步驟，至少包含——
+   (1) 先讀完所有提供的檔案，不要只讀前幾份
+   (2) 依固定五類分類：交期、品質、人力、設備、安全與永續
+   (3) 每類算出次數、涉及的廠區／部門
+   (4) 數字互相衝突時不要自己挑，列進「待確認事項」，寫出兩邊的數字和檔名
+   (5) 每個問題標出處檔名
+   (6) 輸出 Word 檔
+3. 報告結構：一到五段的標題
+4. 寫作規則
+
+最後把 SKILL.md 放在 ops-report 資料夾裡，打包成 ops-report.zip 讓我下載。</code></pre>
+          <div class="expect">👀 它會產出一個 <code>ops-report.zip</code>。下載前先在對話裡看一下 SKILL.md：<b>步驟是不是一條一條寫清楚？</b>和 <a href="skills/src/ops-report/SKILL.md" target="_blank" rel="noopener">講義範本</a> 比一比，差太多就請它補。</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>上傳 Skill</h3>
+          <p>左側選單 <strong>Customize</strong>（自訂）→ <strong>Skills</strong> → 按 <strong>＋</strong> → <strong>Create skill</strong> → <strong>Upload a skill</strong>（或直接打開 <a href="https://claude.ai/customize/skills" target="_blank" rel="noopener">claude.ai/customize/skills</a>），選剛才的 zip。上傳後它會出現在 Skills 清單裡，確認開關是<strong>開啟</strong>的。</p>
+          <div class="callout warn">
+            <span class="callout-label">⚠️ 不在 Settings 裡</span>
+            <p>Skill 是在 <strong>Customize</strong> 上傳，不是 Settings。Settings → Capabilities 只負責打開「Create and edit files」，沒開它 Skills 會是灰色的。免費版可以上傳自己的 Skill。</p>
+          </div>
+          <div class="callout tip">
+            <span class="callout-label">💡 做不出 zip？用現成的</span>
+            <p>直接下載 <a href="skills/ops-report.zip">ops-report.zip</a> 上傳，內容和講義範本一樣。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>在 Project 外面試用</h3>
+          <p>回到首頁開一個<strong>全新的對話</strong>（不要在 Project 裡），上傳觀音廠的 3 份紀錄（10/02、10/14、10/26），送出：</p>
+          <pre class="prompt"><code>幫我寫觀音廠 10 月的月報。</code></pre>
+          <div class="expect">✅ 對答案：Claude 會說它正在使用 <code>ops-report</code> Skill，最後給你一個可以下載的 <b>Word 檔</b>。打開確認格式是不是你設定的那樣。</div>
+        </div>
+      </div>
+
+      <div class="callout rescue">
+        <span class="callout-label">🆘 卡關排除</span>
+        <ul>
+          <li><strong>沒有用到 Skill</strong>：到 Customize → Skills 確認 <code>ops-report</code> 的開關是開啟的；或直接說「請用 ops-report Skill」。</li>
+          <li><strong>上傳失敗</strong>：zip 裡第一層要是 <code>ops-report/</code> 資料夾（裡面才是 <code>SKILL.md</code>），資料夾名稱要和 Skill 名稱一樣；不要把 SKILL.md 直接壓在 zip 最外層。</li>
+          <li><strong>Skills 是灰色的</strong>：到 Settings → Capabilities 打開「Create and edit files」。</li>
+          <li><strong>沒產出 Word 檔</strong>：確認 Settings → Capabilities 的「Create and edit files」已開啟（見 <a href="prep.html#settings">上課前準備</a>）。</li>
+        </ul>
+      </div>
+
+      <h2 id="pss">Project、Skill、Subagent 怎麼分</h2>
+      <div class="table-scroll">
+        <table>
+          <tr><th style="width:14%"></th><th>是什麼</th><th style="width:18%">比喻</th><th>什麼時候用</th></tr>
+          <tr><td><strong>Project</strong></td><td>工作空間：固定指示＋參考檔案</td><td>給新同事的資料夾</td><td>同一類工作反覆做，背景資料都一樣</td></tr>
+          <tr><td><strong>Skill</strong></td><td>可攜帶的做法說明書，需要時自動載入</td><td>公司 SOP 手冊</td><td>有固定格式或流程；想在任何對話用、分享給同事、給 Claude Code 用</td></tr>
+          <tr><td><strong>Subagent</strong></td><td>Claude Code 裡的分身，各自有任務，可以同時跑</td><td>把工作拆給一個小組</td><td>工作量大、可以拆開，或需要「一個寫、一個審」</td></tr>
+        </table>
+      </div>
+
+      <h2 id="safety">⚠️ 什麼不能上傳</h2>
+      <p class="muted small">14:55–15:00</p>
+      <div class="callout warn">
+        <span class="callout-label">⚠️ 上傳前問自己三個問題</span>
+        <ul>
+          <li><strong>有沒有個資？</strong>客戶姓名、電話、地址、身分證字號、病歷——先去識別化，或不要上傳。</li>
+          <li><strong>是不是公司機密？</strong>未公開財報、合約、報價、原始碼——看公司規定，通常要用企業版。</li>
+          <li><strong>外流了會怎樣？</strong>如果答案是「會出事」，就不要放進免費版。</li>
+        </ul>
+      </div>
+
+      <!-- ============ 回合 B ============ -->
+      <h2 id="roundB">回合 B｜研究：一般搜尋 vs 深度研究</h2>
+      <p class="muted small">15:10–15:25 ・ 預估用量：中 ・ <span class="level-pill pro">L3</span></p>
+
+      <p>回到首頁，在 <strong>Project 外面</strong>開一個<strong>全新的對話</strong>，確認網路搜尋是開啟的，送出：</p>
+      <div class="callout tip">
+        <span class="callout-label">💡 為什麼這次不在 Project 裡？</span>
+        <p>這一步只負責「<strong>查</strong>」產業資料，不需要公司背景；在 Project 裡做，每次都會帶著公司檔案，比較吃免費額度。下一步再把結果交給 Project，讓它「<strong>依公司情況改寫</strong>」。一個查、一個改寫，分工才看得出來。</p>
+      </div>
+      <pre class="prompt"><code>請調查台灣電子製造業 2026 年的主要趨勢，至少涵蓋：AI 與智慧製造、碳費與範疇三揭露、缺工與移工、供應鏈移往東南亞。
+每個趨勢附 2 個可以點開查證的來源連結。
+最後給禾川精密（員工 1,280 人、台灣 3 廠加越南 1 廠的電源模組製造商）3 個具體建議。</code></pre>
+
+      <h3>🔸 兩種做法差在哪</h3>
+      <div class="table-scroll">
+        <table>
+          <tr><th style="width:18%"></th><th>🟢 一般對話＋網路搜尋（你，免費）</th><th>🟠 深度研究 Research（老師，Pro）</th></tr>
+          <tr><td><strong>怎麼做</strong></td><td>搜尋幾次，挑前幾筆結果整理成回答</td><td>先擬一份研究計畫 → 多輪搜尋 → 讀完來源 → 交叉比對 → 寫成附引用的報告</td></tr>
+          <tr><td><strong>花多久</strong></td><td>幾十秒</td><td>幾分鐘到十幾分鐘</td></tr>
+          <tr><td><strong>適合</strong></td><td>查一個事實、快速概覽、問「這是什麼」</td><td>要寫報告、做決策、需要可以查證的來源</td></tr>
+        </table>
+      </div>
+
+      <h3>🔸 比較表：先填你的，再看老師的</h3>
+      <p>你的結果出來後，照下表逐項檢查並填空。老師的 Research 結果出來後，全班一起填右欄。</p>
+      <div class="table-scroll">
+        <table>
+          <tr><th style="width:40%">檢查項目（怎麼看）</th><th>🟢 你的結果</th><th>🟠 老師的結果</th></tr>
+          <tr><td><strong>1. 來源數量</strong>：數一數有幾個<em>不同網站</em>的連結</td><td><span class="todo-fill">＿＿ 個</span></td><td><span class="todo-fill">＿＿ 個</span></td></tr>
+          <tr><td><strong>2. 來源可查證</strong>：隨便點開 2 個，內容真的支持它說的話嗎？</td><td><span class="todo-fill">＿／2 個有</span></td><td><span class="todo-fill">＿／2 個有</span></td></tr>
+          <tr><td><strong>3. 涵蓋完整</strong>：四個趨勢（AI、碳費與範疇三、缺工、供應鏈）都有寫到嗎？</td><td><span class="todo-fill">＿／4</span></td><td><span class="todo-fill">＿／4</span></td></tr>
+          <tr><td><strong>4. 數字有出處</strong>：報告裡的數字（例如碳費費率）有附年份和來源嗎？</td><td>□ 都有 □ 部分 □ 沒有</td><td>□ 都有 □ 部分 □ 沒有</td></tr>
+          <tr><td><strong>5. 誠實</strong>：有沒有指出「資料不足」或「不同來源說法不一」？</td><td>□ 有 □ 沒有</td><td>□ 有 □ 沒有</td></tr>
+          <tr><td><strong>6. 建議具體</strong>：把 3 個建議裡的「禾川精密」換成別家公司，還成立嗎？（成立＝太空泛）</td><td><span class="todo-fill">＿／3 個具體</span></td><td><span class="todo-fill">＿／3 個具體</span></td></tr>
+          <tr><td><strong>7. 花多久</strong></td><td><span class="todo-fill">＿＿ 分鐘</span></td><td><span class="todo-fill">＿＿ 分鐘</span></td></tr>
+        </table>
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-label">💡 怎麼下結論</span>
+        <ul>
+          <li>如果你的工作大多是<strong>查一下、問一下</strong>，一般搜尋就夠，不用為了這個付費。</li>
+          <li>如果你常要<strong>寫給主管看、拿來做決策</strong>的調查，第 2、4、5 項的差距就是你付費換到的東西。</li>
+          <li>不管哪一種，<strong>第 2 項都要自己做</strong>：深度研究也可能引用錯、解讀錯。</li>
+        </ul>
+      </div>
+
+      <h3>🔸 串成小流程：交給你的助理</h3>
+      <p>把研究結果複製，打開實作①的 <strong>禾川精密營運助理</strong> Project，在 <strong>Project 裡面開一個新對話</strong>（不要接在實作①、②的舊對話後面），送出：</p>
+      <pre class="prompt"><code>以下是一份產業調查。請改寫成給總經理看的一頁摘要，並對照我們 Q3 的數字，指出哪些趨勢和我們最相關。
+
+（貼上研究結果）</code></pre>
+      <div class="expect">👀 一個負責<b>查</b>、一個負責<b>依你公司的情況改寫</b>。你已經在自己串 Agent 流程了。</div>
+
+      <!-- ============ 回合 C ============ -->
+      <h2 id="roundC">回合 C｜大量檔案：Skill ＋ Subagents</h2>
+      <p class="muted small">15:25–15:45 ・ 預估用量：中高 ・ <span class="level-pill pro">L4</span></p>
+
+      <div class="callout scenario">
+        <span class="callout-label">情境</span>
+        <p>總經理要的不是一個廠，而是<strong>4 個廠區加 8 個部門、30 份紀錄</strong>的 10 月月報，外加統計表和圖。</p>
+      </div>
+
+      <div class="track-pair">
+        <div class="track free">
+          <span class="track-label">🟢 你（免費・claude.ai）</span>
+          <p>從 <code>monthly/</code> 隨便挑 5 份上傳，送出：</p>
+          <pre class="prompt"><code>用 ops-report Skill 幫我把這些紀錄整理成 10 月月報，另外做一份問題統計的 Excel。</code></pre>
+          <p>想想看：30 份全部丟進去會怎樣？</p>
+        </div>
+        <div class="track pro">
+          <span class="track-label">🟠 老師（Pro・桌面版 Code 分頁）</span>
+          <p>Claude Code（Claude 桌面版的 <strong>Code</strong> 分頁）直接讀電腦裡的整個資料夾，載入<strong>你剛才做的同一份 Skill</strong>，然後：</p>
+          <ol>
+            <li>開 <strong>3 個 subagent 同時</strong>各讀 10 份檔案</li>
+            <li>彙整成月報、Excel、長條圖</li>
+            <li>交出前，<strong>審稿 subagent</strong> 逐條對回原始檔查核</li>
+          </ol>
+        </div>
+      </div>
+      <div class="compare-points">
+        <strong>一起比較：</strong>處理的檔案數量、花的時間、統計數字對不對。<br>
+        <strong>注意看審稿分身：</strong>業務處的紀錄寫 PSU-650「本月出貨約 120,000 台」（業務口頭估計），資訊處的 ERP 報表寫「68,400 台」。它抓得到嗎？
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-label">💡 Skill 是可以搬家的</span>
+        <p>你在網頁版上傳的 Skill，用同一個帳號登入 Claude Code 時會<strong>自動同步</strong>過去（輸入 <code>/skills</code> 可以看到「claude.ai sync」）；也可以把 Skill 資料夾直接放進專案的 <code>.claude/skills/</code>。<strong>做一次，到處用</strong>。</p>
+      </div>
+
+      <!-- ============ 回合 D ============ -->
+      <h2 id="roundD">回合 D｜交辦與排程</h2>
+      <p class="muted small">15:45–16:00 ・ 預估用量：中 ・ <span class="level-pill pro">L3</span></p>
+
+      <div class="callout scenario">
+        <span class="callout-label">情境</span>
+        <p>總經理希望每週一早上進辦公室，就能看到一份「本週產業新聞與對我們的影響」。這種<strong>每週都要做、做法都一樣</strong>的事，最適合交給排程。</p>
+      </div>
+
+      <h3>🟢 你：手動做一次（免費）</h3>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>開新對話、按下碼表</h3>
+          <p>回到首頁，在 <strong>Project 外面</strong>開一個新對話，確認網路搜尋開著。手機打開碼表，按下開始。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>送出任務</h3>
+          <pre class="prompt"><code>請搜尋過去 7 天台灣電子製造、供應鏈與碳管理的新聞，挑 5 則和禾川精密有關的，
+每則寫 2 行摘要和「對我們的影響」，最後整理成週報草稿。</code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>驗收到「可以直接寄給總經理」為止</h3>
+          <p>點開 2 則新聞的連結，確認日期真的是最近 7 天、內容和摘要相符。不滿意就追問，例如「第 3 則是去年的新聞，請換一則」。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>停碼表、算一年</h3>
+          <p>這次花了 <span class="todo-fill">＿＿ 分鐘</span> × 52 週 ＝ 一年 <span class="todo-fill">＿＿ 小時</span> 花在這件事上。</p>
+        </div>
+      </div>
+
+      <h3>🟠 老師：設成排程任務（Pro）</h3>
+      <p>排程任務是 Pro 以上方案的功能，設好後會在雲端照時間自動執行，<strong>電腦關機也會跑</strong>。老師會示範兩種設定方式：</p>
+      <div class="track-pair">
+        <div class="track pro">
+          <span class="track-label">方法一：在對話裡直接說</span>
+          <ol>
+            <li>在對話框輸入任務內容，最後加一句「<strong>請設成每週一早上 8 點自動執行</strong>」。</li>
+            <li>Claude 會追問細節（例如結果要怎麼通知你），回答即可。</li>
+            <li>它會列出<strong>任務名稱、時間、指示內容</strong>給你確認，按確認就設定完成。</li>
+          </ol>
+        </div>
+        <div class="track pro">
+          <span class="track-label">方法二：手動設定</span>
+          <ol>
+            <li>左側選單點 <strong>Scheduled</strong> → <strong>New task</strong> → <strong>Set up manually</strong>。</li>
+            <li>填入：<strong>任務名稱</strong>、<strong>指示（prompt）</strong>、<strong>批准方式</strong>、<strong>頻率</strong>（每小時、每天、每週、平日或手動）。</li>
+            <li>儲存後按一次<strong>立即執行</strong>，確認結果沒問題。</li>
+          </ol>
+        </div>
+      </div>
+      <p>設好之後，在 <strong>Scheduled</strong> 頁面可以看過去和接下來的執行紀錄，也可以修改、暫停、刪除，或隨時手動執行一次。</p>
+
+      <h3>📝 先寫好你的排程任務卡</h3>
+      <p>就算你今天沒有 Pro，也可以先把任務寫好，之後升級時直接貼上：</p>
+      <pre class="prompt"><code>【任務名稱】
+【多久一次】每週＿＿ ＿＿點
+【指示】（用「提示詞六要素」寫：任務、資料、格式、角色、規則、範例）
+【批准方式】哪些步驟要先問我？（例如：寄信、刪檔前要先問）
+【我怎麼驗收】每次收到後，我會檢查＿＿＿</code></pre>
+
+      <div class="compare-points">
+        <strong>一起想：</strong>你手動做的分鐘數 × 52 週，就是排程每年幫你省下的時間。<br>
+        <strong>但也要想：</strong>自動跑出來的東西，<strong>誰來驗收？</strong>排程只是把「做」自動化，「把關」還是你的工作。
+      </div>
+
+      <h3 id="share">🎤 成果分享（16:00–16:10）</h3>
+      <p>2–3 位同學上台，30 秒講：你做了什麼助理／Skill、它幫你省了什麼、你抓到它哪裡做錯。</p>
+
+      <!-- ============ 程式組 ============ -->
+      <h2 id="coder">程式組加碼：請 Claude 寫程式，自己在 Colab 跑</h2>
+      <p>會寫程式、手比較快的人，在回合 C／D 等待時做這題。</p>
+      <ol>
+        <li>在 claude.ai 上傳 <code>employee_survey.csv</code>，送出下面的提示詞。</li>
+        <li>把程式碼複製到 <a href="https://colab.research.google.com" target="_blank" rel="noopener">Google Colab</a> 新筆記本，上傳 <code>employee_survey.csv</code> 後執行。</li>
+        <li>和參考答案對照：<a href="https://colab.research.google.com/github/jlwustudio/chat2agent_workshop_2026/blob/main/colab/survey_batch.ipynb" target="_blank" rel="noopener">在 Colab 開啟參考答案</a>（或 <a href="colab/survey_batch.ipynb">下載 .ipynb</a>）。</li>
+      </ol>
+      <pre class="prompt"><code>請寫一段可以在 Google Colab 執行的 Python 程式：
+1. 讀取 employee_survey.csv（欄位：response_id, date, site, role, score, text；score 是 1–5 的滿意度）
+2. 用關鍵字規則把每則意見分成：排班與加班、薪酬福利、主管溝通、設備與安全、訓練與發展、其他
+3. 統計每類的則數、平均分數、不滿意數（2 分以下），以及各廠區的不滿意數
+4. 畫一張類別長條圖（要能顯示中文）
+5. 匯出 review_analysis.xlsx，分成三個工作表
+不需要任何 API 金鑰。</code></pre>
+      <div class="callout tip">
+        <span class="callout-label">🔍 追問檢查點</span>
+        <p>規則分類一定有漏網之魚。請 Claude 回答：「一則意見同時講加班和調薪，怎麼辦？」「分數和文字不一致時該信哪個？」——這就是 NLP 研究在處理的問題。</p>
+      </div>
+
+      <!-- ============ 交辦模板 ============ -->
+      <h2 id="delegate">交辦任務模板＋驗收清單</h2>
+      <p>不管用哪一家 AI、哪一種 Agent，交辦時把這七格填好，結果就會穩很多：</p>
+      <pre class="prompt"><code>【目標】這件事做完要達成什麼？
+【背景】讀者是誰？為什麼要做？
+【資料】要用哪些檔案／網站？哪些不能用？
+【產出】什麼格式？多長？檔案類型？
+【完成標準】怎樣算做完？（例如：每個數字都有出處）
+【限制】預算、時程、不能碰的事
+【驗收】做完先自我檢查哪些地方，再交給我</code></pre>
+
+      <h3>✅ 驗收清單</h3>
+      <span class="check-progress" data-check-progress="n11-verify">0 / 5 項完成</span>
+      <ul class="checklist" data-check-group="n11-verify">
+        <li><label><input type="checkbox" data-ck="n11-v-num"><span><strong>數字</strong>：隨機挑 3 個，對回原始資料</span></label></li>
+        <li><label><input type="checkbox" data-ck="n11-v-src"><span><strong>來源</strong>：隨機點開 2 個連結，確認真的有寫</span></label></li>
+        <li><label><input type="checkbox" data-ck="n11-v-limit"><span><strong>限制條件</strong>：每一條都有被考慮到</span></label></li>
+        <li><label><input type="checkbox" data-ck="n11-v-miss"><span><strong>漏掉的</strong>：問它「你有哪些資料沒用到？」</span></label></li>
+        <li><label><input type="checkbox" data-ck="n11-v-devil"><span><strong>換腦複審</strong>：開新對話，請它當「挑毛病的主管」</span></label></li>
+      </ul>
+
+      <!-- ============ 5 Skill ============ -->
+      <h2 id="templates">5 份現成 Skill（下載即用）</h2>
+      <p>下載後上傳：左側選單 <strong>Customize</strong>（自訂）→ <strong>Skills</strong> → 按 <strong>＋</strong> → <strong>Create skill</strong> → <strong>Upload a skill</strong>（或直接打開 <a href="https://claude.ai/customize/skills" target="_blank" rel="noopener">claude.ai/customize/skills</a>）。每一份都可以打開 <code>SKILL.md</code> 改成你公司的格式。</p>
+      <div class="card-grid">
+        <a class="card" href="skills/ops-report.zip"><span class="card-num">01</span><h3>營運週報／月報</h3><p>會議紀錄、回饋 → 分類統計、待決事項、待確認事項，輸出 Word。</p><div class="card-meta"><span class="tag">ops-report</span><span class="arrow">↓</span></div></a>
+        <a class="card" href="skills/meeting-minutes.zip"><span class="card-num">02</span><h3>會議紀錄</h3><p>逐字稿 → 議題結論、決議、待辦清單（誰、做什麼、何時）。</p><div class="card-meta"><span class="tag">meeting-minutes</span><span class="arrow">↓</span></div></a>
+        <a class="card" href="skills/complaint-reply.zip"><span class="card-num">03</span><h3>B2B 客訴回覆</h3><p>確認問題 → 暫時處置 → 8D 報告時程，不亂承諾賠償，附內部處理清單。</p><div class="card-meta"><span class="tag">complaint-reply</span><span class="arrow">↓</span></div></a>
+        <a class="card" href="skills/proposal-draft.zip"><span class="card-num">04</span><h3>一頁式提案</h3><p>先列限制條件 → 選項比較表 → 建議與所需資源。</p><div class="card-meta"><span class="tag">proposal-draft</span><span class="arrow">↓</span></div></a>
+        <a class="card" href="skills/esg-brief.zip"><span class="card-num">05</span><h3>永續揭露短文</h3><p>依數據寫永續報告書章節或客戶 ESG 問卷，列出資料缺口，不做無依據宣稱。</p><div class="card-meta"><span class="tag">esg-brief</span><span class="arrow">↓</span></div></a>
+      </div>
+
+      <h2 id="next">寫下：下週要交給 Claude 的一件事</h2>
+      <p class="muted small">16:10–16:20</p>
+      <div class="callout scenario">
+        <span class="callout-label">📝 填好拍照帶走</span>
+        <p>每週重複、有固定格式、花我最多時間的一件事是：<span class="todo-fill">＿＿＿＿＿＿＿＿＿＿＿＿</span></p>
+        <p>我會用：□ Project　□ Skill　□ 深度研究　□ 排程　□ Claude Code</p>
+        <p>我會怎麼驗收：<span class="todo-fill">＿＿＿＿＿＿＿＿＿＿＿＿</span></p>
+      </div>
+
+      <!-- ============ 碩士班 ============ -->
+      <h2 id="master">走到 L4 之後：東吳資科碩士班／在職專班</h2>
+      <p class="muted small">16:20–16:30</p>
+      <p>今天你從 L1 走到 L3，看過 L4。再往下，問題就從「怎麼用」變成「<strong>怎麼確定它是對的、怎麼讓它更懂我的領域</strong>」：</p>
+      <div class="table-scroll">
+        <table>
+          <tr><th style="width:36%">今天碰到的問題</th><th>碩士班在學什麼</th></tr>
+          <tr><td>它說的數字對嗎？分類準嗎？</td><td><strong>模型評估</strong>：設計測試資料、量化準確率、找出系統性錯誤</td></tr>
+          <tr><td>30 份檔案可以，30 萬份呢？</td><td><strong>資料工程</strong>：資料清理、資料庫、批次處理流程</td></tr>
+          <tr><td>它不知道我們公司的事</td><td><strong>RAG 與知識庫</strong>：讓 AI 依公司文件回答並附出處</td></tr>
+          <tr><td>通用模型不懂我的產業</td><td><strong>NLP 與模型微調</strong>：用自己的資料訓練領域模型</td></tr>
+          <tr><td>Agent 會不會亂做事？</td><td><strong>AI 系統設計與治理</strong>：權限、查核、可解釋性</td></tr>
+        </table>
+      </div>
+      <div class="callout scenario">
+        <span class="callout-label">💡 今天的課，就是在職專班的上課方式</span>
+        <p>資科系碩士在職專班的定位是「<strong>資料科學 × AI 工具 × 產業決策應用</strong>」，培育目標是「會用 AI、敢於應用、能產出成果」，<strong>非資訊背景也適合</strong>（管理、行銷、金融、教育背景皆可）。今天你做的 Project、Skill、驗收流程，就是這種「拿工作上的問題來做」的學法。</p>
+      </div>
+
+      <div class="track-pair">
+        <div class="track pro">
+          <span class="track-label">💼 碩士在職專班（城中校區）</span>
+          <ul>
+            <li><strong>報名</strong>：115/12/08 – 116/01/04</li>
+            <li><strong>面試</strong>：116/02/21（日）</li>
+            <li><strong>名額</strong>：48 名，<strong>免筆試</strong></li>
+            <li><strong>資格</strong>：具碩士報考資格，並累計工作經驗兩年以上</li>
+            <li><strong>甄選</strong>：資料審查（個人資料表、研究計畫、工作經驗表、工作成就資料）＋面試</li>
+            <li><strong>課程模組</strong>：資料科學思維與決策實務、AI 與資料分析方法論、資料產品應用與跨域整合</li>
+            <li><strong>特色</strong>：GenAI 與 AI 工具實務、產業案例與專題、結合 NVIDIA DLI AI 培訓與證照</li>
+          </ul>
+        </div>
+        <div class="track free">
+          <span class="track-label">🎓 碩士班</span>
+          <ul>
+            <li><strong>甄試</strong>：名額 12 名、免筆試（資料審查＋面試）</li>
+            <li>116 學年度甄試報名（115/10/12 – 10/27）<strong>已截止</strong>，面試 115/11/20</li>
+            <li>碩士班其他入學管道與時程，請見 <a href="https://entrance.exam.scu.edu.tw/" target="_blank" rel="noopener">東吳大學招生資訊網</a></li>
+            <li><strong>方向</strong>：人工智慧、智慧運算、智慧決策、雙聯學位；全面導入 NVIDIA AI 證照培訓課程</li>
+            <li><strong>畢業</strong>：至少 36 學分（含必修 15 學分），通過資格考核並完成碩士論文</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout confirm">
+        <span class="callout-label">📞 招生資訊與聯絡</span>
+        <p>資科系招生頁：<a href="https://web-ch.scu.edu.tw/datascience/web_page/16140" target="_blank" rel="noopener">web-ch.scu.edu.tw/datascience/web_page/16140</a><br>
+          簡章與報名：<a href="https://entrance.exam.scu.edu.tw/" target="_blank" rel="noopener">entrance.exam.scu.edu.tw</a>（一切以招生簡章為準）<br>
+          聯絡：資料科學系 邱小姐 (02)2881-9471 #5937 ・ <a href="mailto:cchiu@scu.edu.tw">cchiu@scu.edu.tw</a></p>
+        <p class="muted small">資料來源：資科系招生頁海報，2026/11/07 讀取。</p>
+      </div>
+
+      <div class="pager">
+        <a href="prep.html">← 上課前準備</a>
+        <a href="slides/afternoon.html">投影片 →</a>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="inner">
+      <span>AI 職場溝通革命：自然語言生成實務 ・ 2026/11/07 ・ <a href="https://bigdata.scu.edu.tw" target="_blank" rel="noopener">資料科學系</a>
+        ＆ <a href="https://nlp.bigdata.scu.edu.tw" target="_blank" rel="noopener">SCU NLP Lab</a></span>
+      <span><a href="https://github.com/jlwustudio/chat2agent_workshop_2026" target="_blank" rel="noopener">GitHub</a></span>
+      <span><a href="index.html">首頁</a> ・ <a href="prep.html">上課前準備</a></span>
+    </div>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+
+</html>

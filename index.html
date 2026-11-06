@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 職場溝通革命：自然語言生成實務 — 2026/11/07</title>
+  <meta name="description" content="三小時，用 Claude 從對話進階到 AI Agent，讓 AI 把工作做完。東吳大學資料科學系 × SCU NLP Lab。">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="inner">
+      <a class="brand" href="index.html">
+        <img src="assets/bigdata_logo.png" alt="東吳資科" class="header-logo">
+        <img src="assets/nlp_logo.png" alt="NLP Lab" class="header-logo">
+        自然語言生成實務
+        <small>11/07 下午</small>
+      </a>
+      <nav class="site-nav">
+        <a href="index.html" aria-current="page">首頁</a>
+        <a href="prep.html">上課前準備</a>
+        <a href="handout.html">學員講義</a>
+        <a href="slides/afternoon.html">投影片</a>
+        <a href="data/">範例資料</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-content">
+        <span class="kicker">AI 落地新實務 ・ 第 2 場 ・ 東吳大學資料科學系</span>
+        <h1>別再只跟 AI 聊天了</h1>
+        <p class="lede">三小時，用 Claude 從「問問題」走到「把工作交辦出去」。<br>你不用會寫程式。你只要會<strong>說清楚要什麼</strong>、會<strong>驗收</strong>。</p>
+        <div class="meta">
+          <span>📅 2026/11/07（六）</span>
+          <span>🕜 13:30–16:30</span>
+          <span>📍 城中校區 5216 菁英講堂</span>
+          <span>💻 請帶筆電與充電器</span>
+        </div>
+      </div>
+      <div class="hero-logos">
+        <img src="assets/bigdata_logo.png" alt="東吳大學資料科學系" class="hero-logo">
+        <img src="assets/nlp_logo.png" alt="SCU NLP Lab" class="hero-logo">
+      </div>
+    </div>
+  </div>
+
+  <div class="page no-toc">
+    <main>
+
+      <div class="callout scenario">
+        <span class="callout-label">👉 現在該做什麼</span>
+        <p><strong>上課前</strong>：用瀏覽器打開 <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>（網頁版，不用安裝），
+          註冊一個<strong>免費帳號</strong>並確認登得進去。全程用免費版就能做，不用付費。詳細步驟見 <a href="prep.html">上課前準備</a>。</p>
+        <p>教材網址：<a href="https://jlwustudio.github.io/chat2agent_workshop_2026/">jlwustudio.github.io/chat2agent_workshop_2026/</a>（課後也可以回來看）</p>
+      </div>
+
+      <h2 id="what">今天會做什麼</h2>
+
+      <div class="ladder">
+        <div class="rung"><b class="lv">L1</b><div><strong>對話</strong>：問問題、拿答案。大部分人停在這裡。</div></div>
+        <div class="rung"><b class="lv">L2</b><div><strong>給它資料與規則</strong>：Project + Skill，打造你自己的工作助理，直接產出 Word / Excel。<span class="level-pill">你動手・免費</span></div></div>
+        <div class="rung pro"><b class="lv">L3</b><div><strong>交辦任務</strong>：深度研究、排程任務，讓它自己做完再交給你驗收。<span class="level-pill pro">老師示範・Pro</span></div></div>
+        <div class="rung pro"><b class="lv">L4</b><div><strong>打造 Agent 團隊</strong>：Claude Code + Subagents，一個人變一個小組。<span class="level-pill pro">老師示範・Pro</span></div></div>
+      </div>
+
+      <p>每一段都會<strong>你用免費版做、老師用 Pro 做同一題</strong>，兩邊結果並排投影。你會親眼看到升級差在哪裡，回去自己判斷值不值得。</p>
+
+      <h2 id="materials">課程教材</h2>
+      <div class="card-grid">
+        <a class="card is-key" href="handout.html">
+          <span class="card-num">01</span>
+          <h3>學員講義</h3>
+          <p>每個實作的逐步操作、可直接複製的提示詞、卡關排除。上課跟著這頁走。</p>
+          <div class="card-meta"><span class="tag">上課用</span><span class="arrow">→</span></div>
+        </a>
+        <a class="card" href="slides/afternoon.html">
+          <span class="card-num">02</span>
+          <h3>投影片</h3>
+          <p>課堂投影片。<code>←</code> <code>→</code> 翻頁，<code>F</code> 全螢幕。課後可自己再翻一次。</p>
+          <div class="card-meta"><span class="tag">投影片</span><span class="arrow">→</span></div>
+        </a>
+        <a class="card" href="data/">
+          <span class="card-num">03</span>
+          <h3>範例資料與 Skill</h3>
+          <p>虛構公司「禾川精密」的營運資料、客戶客訴信、30 份廠區與部門週會紀錄、100 則員工意見，以及 5 份現成 Skill。</p>
+          <div class="card-meta"><span class="tag">下載</span><span class="arrow">→</span></div>
+        </a>
+        <a class="card" href="prep.html">
+          <span class="card-num">04</span>
+          <h3>上課前準備</h3>
+          <p>註冊 Claude 免費帳號、打開 Create and edit files。程式組另外準備 Google 帳號開 Colab。</p>
+          <div class="card-meta"><span class="tag">5 分鐘</span><span class="arrow">→</span></div>
+        </a>
+      </div>
+
+      <h2 id="schedule">課堂時間軸</h2>
+      <div class="table-scroll">
+        <table>
+          <tr><th style="width:20%">時間</th><th style="width:30%">單元</th><th>你會做什麼</th></tr>
+          <tr><td>13:30–13:45</td><td>開場</td><td>看「聊天式」和「交辦式」做同一件事差多少；認識四階</td></tr>
+          <tr><td>13:45–14:10</td><td>① 認識 Claude ＋ 回合 A</td><td>用免費版寫一頁提案和客訴回覆，和老師的 Pro 版比較</td></tr>
+          <tr><td>14:10–15:00</td><td>② 打造你的工作助理</td><td>實作① 建 Project；實作② 做一個自己的 Skill，產出 Word 檔</td></tr>
+          <tr><td>15:00–15:10</td><td>☕ 休息</td><td></td></tr>
+          <tr><td>15:10–16:10</td><td>③ 交辦給 Agent</td><td>回合 B 研究、回合 C Subagents、回合 D 排程；把研究結果交給你的助理改寫；成果分享</td></tr>
+          <tr><td>16:10–16:20</td><td>總結</td><td>寫下「下週要交給 Claude 的一件事」</td></tr>
+          <tr><td>16:20–16:30</td><td>東吳資科系碩士班／在職專班</td><td>從 L4 繼續往下走要學什麼</td></tr>
+        </table>
+      </div>
+
+      <h2 id="how">怎麼上這堂課</h2>
+      <ul>
+        <li><strong>每個人用自己的電腦動手做</strong>。卡住就舉手，或直接問旁邊的同學。</li>
+        <li><strong>不會寫程式完全沒關係</strong>：主線全部用點的、用打字的。會寫程式的人有「程式組加碼」。</li>
+        <li><strong>免費版有用量上限</strong>（每 5 小時一個額度）。講義每個實作都標了預估用量；用完了就和鄰座一起看一台。</li>
+      </ul>
+
+      <div class="callout warn">
+        <span class="callout-label">⚠️ 今天用的都是虛構資料</span>
+        <p>「禾川精密」是為課程編的公司。請<strong>不要</strong>把你公司的機密、客戶個資、未公開的財報上傳到免費版 AI。回去要用在工作上，先問公司的資訊安全規定。</p>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="inner">
+      <span>AI 職場溝通革命：自然語言生成實務 ・ 2026/11/07 ・ <a href="https://bigdata.scu.edu.tw" target="_blank" rel="noopener">資料科學系</a>
+        ＆ <a href="https://nlp.bigdata.scu.edu.tw" target="_blank" rel="noopener">SCU NLP Lab</a></span>
+      <span><a href="https://github.com/jlwustudio/chat2agent_workshop_2026" target="_blank" rel="noopener">GitHub</a></span>
+      <span><a href="prep.html">上課前準備</a> ・ <a href="handout.html">講義</a> ・ <a href="slides/afternoon.html">投影片</a></span>
+    </div>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+
+</html>
